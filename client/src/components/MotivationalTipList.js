@@ -21,14 +21,19 @@ import Snackbar from "@mui/material/Snackbar";
 export default function MotivationTipList(props) {
   const { auth } = useContext(AuthContext);
   const [tipList, setTipList] = useState([]);
+  const [user, setUser] = useState({});
   const [key, setKey] = useState(0);
   const [showToast, setShowToast] = useState({ open: false, msg: "" });
   const history = useHistory();
 
   // load data
   useEffect(() => {
+    // get user from auth context
+    if (auth.user) {
+      setUser(auth.user);
+    }
     async function fetchData() {
-      const res = await MotivationDataService.getAll(auth.user._id);
+      const res = await MotivationDataService.getAll(user._id);
 
       if (!res.data.error) {
         let tips = res.data.data;
@@ -47,7 +52,7 @@ export default function MotivationTipList(props) {
       }
     }
     fetchData();
-  }, [key]);
+  }, [key, auth.user]);
 
   const editMotivation = async (tip) => {
     // pass data by updating location.state
@@ -103,7 +108,7 @@ export default function MotivationTipList(props) {
         </Typography>
       </Box>
         {
-          auth.user?.userType === 'nurse' &&
+          user?.userType === 'nurse' &&
           <Button
             variant="contained"
             onClick={() => {
@@ -123,7 +128,7 @@ export default function MotivationTipList(props) {
               <TableCell>Nurse</TableCell>
               <TableCell>Type</TableCell>
               <TableCell>View</TableCell>
-              {auth.user.userType === "nurse" && (
+              {user?.userType === "nurse" && (
                 <>
                   <TableCell>Edit</TableCell>
                   <TableCell>Delete</TableCell>
@@ -153,7 +158,7 @@ export default function MotivationTipList(props) {
                     View
                   </Button>
                 </TableCell>
-                {auth.user?.userType === "nurse" && (
+                {user?.userType === "nurse" && (
                   <>
                     <TableCell>
                       <Button

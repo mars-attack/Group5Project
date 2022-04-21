@@ -2,8 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
+  Route
 } from "react-router-dom";
 
 import "./App.css";
@@ -54,117 +53,44 @@ function App() {
           <Route render={(data) => <Error {...data} />} exact path="/error" />
 
           {/* Protected routes */}
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <VitalsList {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            exact
-            path="/vitalslist"
-          />
+          {AuthService.loggedIn()  && (
+            <Route component={VitalsList} exact path="/vitalslist"/>
+          )}
 
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <MotivationalTipList {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            exact
-            path="/motivation/list"
-          />
+          {AuthService.loggedIn()  && (
+            <Route component={MotivationalTipList} exact path="/motivation/list" />
+          )}
 
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <ViewMotivationTip {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            path="/motivation/view/:id"
-          />
+          {AuthService.loggedIn()  && (
+            <Route component={ViewMotivationTip} exact path="/motivation/view/:id" />
+          )}
 
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <VitalsResult {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            exact
-            path="/vitals/result"
-          />
+          {AuthService.loggedIn()  && (
+            <Route component={VitalsResult} exact path="/vitals/result" />
+          )}
 
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <VitalsForm {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            exact
-            path="/vitals/form"
-          />
+          {AuthService.loggedIn()  && (
+            <Route component={VitalsForm} exact path="/vitals/form" />
+          )}
 
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() ? (
-                <Profile {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/" }} />
-              );
-            }}
-            exact
-            path="/profile"
-          />
-
+          {AuthService.loggedIn()  && (
+            <Route component={Profile} exact path="/profile" />
+          )}
 
           {/* Nurse only routes */}
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() &&
-                auth.user?.userType === "nurse" ? (
-                <PatientList {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/home" }} />
-              );
-            }}
-            exact
-            path="/patientlist"
-          />
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() &&
-                auth.user?.userType === "nurse" ? (
-                <AlertList {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/home" }} />
-              );
-            }}
-            exact
-            path="/alertlist"
-          />
-          <Route
-            render={(data) => {
-              return AuthService.loggedIn() &&
-                auth.user?.userType === "nurse" ? (
-                <MotivationTipForm {...data} />
-              ) : (
-                <Redirect to={{ pathname: "/home" }} />
-              );
-            }}
-            exact
-            path="/motivation/form"
-          />
 
-          <Route component={Error} />
+          {AuthService.loggedIn() && auth.user?.userType === "nurse" && (
+            <Route component={MotivationTipForm} exact path="/motivation/form" />
+          )}
+
+          {AuthService.loggedIn() && auth.user?.userType === "nurse" && (
+            <Route component={PatientList} exact path="/patientlist" />
+          )}
+
+          {AuthService.loggedIn() && auth.user?.userType === "nurse" && (
+            <Route component={AlertList} exact path="/alertlist" />
+          )}
+          <Route component={Home} />
         </Switch>
       </Router>
     </AuthContext.Provider>

@@ -22,9 +22,15 @@ export default function AlertList(props) {
   const [key, setKey] = useState(0);
   const [showToast, setShowToast] = useState({ open: false, msg: "" });
   const { auth } = useContext(AuthContext);
+  const [user, setUser] = useState(auth.user);
 
   // load data
   useEffect(() => {
+    // get user from auth context
+    if (auth.user) {
+      setUser(auth.user);
+    }
+
     async function fetchData() {
       const res = await AlertDataService.getAllAlerts();
 
@@ -46,10 +52,10 @@ export default function AlertList(props) {
       }
     }
     fetchData();
-  }, [key]);
+  }, [key, auth.user]);
 
   const checkPatient = async (alert) => {
-    const res = await AlertDataService.checkPatient(alert._id, auth.user.id);
+    const res = await AlertDataService.checkPatient(alert._id, user.id);
     setShowToast({ open: true, msg: res.data.msg });
     if (!res.data.error) {
       setKey(Date.now());

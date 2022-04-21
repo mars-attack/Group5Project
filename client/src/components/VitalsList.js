@@ -20,7 +20,7 @@ import Snackbar from "@mui/material/Snackbar";
 // Code example from https://mui.com/components/tables/
 export default function VitalsList(props) {
   const { auth } = useContext(AuthContext);
-  const currentUser = useRef();
+  const [user, setUser] = useState(auth.user);
   const [vitalsList, setVitalsList] = useState([]);
   const [key, setKey] = useState(0);
   const [showToast, setShowToast] = useState({ open: false, msg: "" });
@@ -32,12 +32,12 @@ export default function VitalsList(props) {
   useEffect(() => {
     // Maintains user on refresh as context will be null
     if (auth.user) {
-      currentUser.current= auth.user;
+      setUser(auth.user);
     }
-    console.log(currentUser.current);
+    console.log(auth.user);
     // load data
     // If user is a nurse
-    if (currentUser.current.userType === "nurse") {
+    if (auth.user?.userType === "nurse") {
       const { patientId } = location.state;
       if (patientId) {
         setPatientIdInternal(patientId);
@@ -55,17 +55,17 @@ export default function VitalsList(props) {
       }
     } else {
       // If user is a patient
-      setPatientName(currentUser.current.name);
-      setPatientIdInternal(currentUser.current.id);
+      setPatientName(auth.user?.name);
+      setPatientIdInternal(auth.user?.id);
       async function fetchData() {
-        const res = await VitalsDataService.getAllVitalsByPatient(currentUser.current.id);
+        const res = await VitalsDataService.getAllVitalsByPatient(auth.user?.id);
         if (!res.data.error) {
           setVitalsList(res.data.data);
         }
       }
       fetchData();
     }
-  }, [key]);
+  }, [key, auth.user]);
 
   const editVitals = async (vitalsToEdit) => {
     props.history.push();

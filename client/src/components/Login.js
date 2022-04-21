@@ -20,7 +20,6 @@ function App(props) {
 
   const { auth, setAuth } = useContext(AuthContext);
 
-
   // Send studentNumber and password to the serverfor initial authentication
   const authenticate = async () => {
     try {
@@ -33,6 +32,7 @@ function App(props) {
         setAuth({ user: res.data.user, token: res.data.token });
         saveAuth(res.data.user, res.data.token);
         props.history.push('/home');
+        window.location.reload(); //fixes navigation use where user is undefined until app rerenders
       }
     } catch (e) {
       console.log(e); // Print the error

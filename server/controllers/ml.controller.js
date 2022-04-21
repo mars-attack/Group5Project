@@ -1,7 +1,7 @@
 const tf = require("@tensorflow/tfjs");
 // const tf_node = require("@tensorflow/tfjs-node");
 require("tfjs-node-save");
-const modelLocation = "./server/ml/model/model.json";
+const modelLocation = "./ml/model/model.json";
 
 exports.predict = async (req, res) => {
   let data = req.body;

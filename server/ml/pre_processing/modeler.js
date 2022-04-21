@@ -1,14 +1,14 @@
 const tf = require("@tensorflow/tfjs");
 // require("@tensorflow/tfjs-node");
 require('tfjs-node-save');
-const dataset = require("../data/heart.json");
+const data = require("../data/heart.json");
 
 const modelSaveLocation = "../model";
 
 
 // Feature selection
 const dataFeatures = tf.tensor2d(
-  dataset.map((attr) => [
+  data.map((attr) => [
     attr.age,
     attr.cp,
     attr.sex,
@@ -22,21 +22,21 @@ const dataFeatures = tf.tensor2d(
 
 // Classification problem
 // Target value: 1 - Heart deases predicted
-const outputData = tf.tensor2d(dataset.map((attr) => [attr.target]));
+const outputData = tf.tensor2d(data.map((attr) => [attr.target]));
 
 // build neural network using a sequential model
 //sigmoid activation function is good for predicting proabblities as its resricted between 0 and 1
 const model = tf.sequential();
 model.add(
   tf.layers.dense({
-    inputShape: [8], // eifgh input neurons
+    inputShape: [8],
     activation: "sigmoid",
-    units: 10, //dimension of output space (first hidden layer)
+    units: 9, //dimension of output space (first hidden layer)
   })
 );
 model.add(
   tf.layers.dense({
-    inputShape: [10],
+    inputShape: [9],
     activation: "sigmoid",
     units: 1,
   })
@@ -44,7 +44,7 @@ model.add(
 model.add(
   tf.layers.dense({
     activation: "sigmoid",
-    units: 1,
+    units: 1, // output shape
   })
 );
 
