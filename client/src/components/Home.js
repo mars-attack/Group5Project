@@ -1,5 +1,5 @@
+import React, { useEffect, useContext } from "react";
 import { withRouter } from "react-router-dom";
-import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../contexts/Context";
 import homepageImg from './../assets/images/homepage.png';
@@ -23,6 +23,8 @@ function Home(props) {
     justify-content: center;
 }
 `;
+  useEffect(()=>{
+  },[auth.user]);
   return (
  
     <StyledContainer component="main" maxWidth="xl" >
@@ -30,7 +32,7 @@ function Home(props) {
         align='center'
         variant="h3"
         sx={{ marginTop: '30px', color: '#545454'}}
-        > Hospital System
+        > {!auth.user ? 'Hospital' : auth.user?.userType === 'nurse' ? 'Nurse' : 'Patient'} System
         <div style={{height: "200px"}}>
           <img  style={{ maxWidth: '100%', maxHeight: '100%', display: 'block', margin: 'auto'}} src={homepageImg} alt="homepage"/>
         </div>

@@ -22,7 +22,6 @@ function App(props) {
   const { auth } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log("tip form openned");
     const { viewMode, tipId } = props.location.state;
     if (!props.location.state) {
       return;

@@ -24,7 +24,6 @@ function App(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(user);
     // API Call
     const res = await UserDataService.updateUser(user);
     setShowToast({ open: true, msg: res.data.msg });

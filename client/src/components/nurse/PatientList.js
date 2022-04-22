@@ -21,7 +21,6 @@ export default function PatientList(props) {
   const [patients, setPatients] = useState([]);
   const history = useHistory();
   useEffect(() => {
-    console.log("loading patient list");
     let patientList = [];
     async function fetchData() {
       const res = await UserDataService.getAllPatients();

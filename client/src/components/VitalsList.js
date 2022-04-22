@@ -34,7 +34,6 @@ export default function VitalsList(props) {
     if (auth.user) {
       setUser(auth.user);
     }
-    console.log(auth.user);
     // load data
     // If user is a nurse
     if (auth.user?.userType === "nurse") {

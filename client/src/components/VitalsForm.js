@@ -51,7 +51,6 @@ function App(props) {
         if (!res.data.error) {
 
             const predictionsRes = await MLDataService.predictHeartDisease(vitals);
-            console.log(predictionsRes.data);
             if(predictionsRes?.data) {
                 if (predictionsRes.data>= 0.5) {             
                     await AlertDataService.createAlert(vitals.patient).then(res=> {

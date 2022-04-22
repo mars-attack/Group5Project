@@ -35,7 +35,7 @@ function App(props) {
         window.location.reload(); //fixes navigation use where user is undefined until app rerenders
       }
     } catch (e) {
-      console.log(e); // Print the error
+      props.history.push('/error');
     }
   };
 
@@ -45,7 +45,6 @@ function App(props) {
   };
 
   useEffect(() => {
-    console.log(auth);
   }, [auth]);
 
   return (
